@@ -8,7 +8,7 @@ library(patchwork)
 
 theme_set(theme_metill())
 end_time <- Sys.time()
-start_time <- end_time - lubridate::years(7)
+start_time <- end_time - years(7) - days(13)
 
 skjalftalisa_data <- download_skjalftalisa_data(start_time, end_time)
 
@@ -21,7 +21,7 @@ when_eldgos <- tibble(
   )
 ) |>
   filter(
-    date >= Sys.Date() - lubridate::years(7)
+    date >= start_time
   )
 
 p1 <- skjalftalisa_data |>
@@ -61,6 +61,9 @@ p1 <- skjalftalisa_data |>
     col = "red",
     alpha = 0.5
   ) +
+  scale_x_date(
+    expand = expansion()
+  ) +
   scale_y_continuous(
     limits = c(0, NA),
     expand = expansion(mult = c(0, 0.1))
@@ -74,7 +77,7 @@ p1 <- skjalftalisa_data |>
     x = NULL,
     y = NULL,
     title = "Jarðskjálftar eftir stærð og eldgos á Íslandi (2017 - 2024)",
-    subtitle = "Upphaf eldgosa með rauðum línum"
+    subtitle = "Vikulegur fjöldi jarðskjálfta. Upphaf eldgosa með rauðum brotnum línum"
   )
 
 p1
